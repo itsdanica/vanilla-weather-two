@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla Weather App</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <img src="images/logo.png" alt="SheCodes logo" class="logo" />
+        <form id="search-city-form">
+          <input
+            type="search"
+            placeholder="Enter a city.."
+            required
+            class="enter-city"
+            id="enter-city"
+          />
+          <input type="submit" value="Search" class="search-city" />
+        </form>
+      </header>
+      <main>
+        <div class="weather">
+          <div class="weather-info">
+            <h1 id="heading">Vanilla Weather App</h1>
+            <p>
+              <span id="current-date">Enter a city to get the weather :)</span>
+              <span id="sky"></span>
+              <br />
+              <span id="word-humidity"></span><strong id="humidity"></strong>
+              <span id="comma"></span>
+              <span id="word-wind"></span><strong id="wind-speed"></strong>
+            </p>
+          </div>
+          <div class="temp-info">
+            <div class="temp-img"></div>
+            <div class="temp-number"></div>
+            <div class="temp-scale"></div>
+          </div>
+        </div>
+        <div class="forecast">
+          <div class="row">
+            <div class="column">
+              <div class="forecast-day">Fri</div>
+              <div class="forecast-img"></div>
+              <div class="forecast-temp">
+                <strong class="hi">18°</strong><span class="lo">12°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        Coded by
+        <a href="https://github.com/itsdanica" target="_blank">Danica Cook</a>,
+        code hosted on
+        <a href="https://github.com/matthieua/meteo" target="_blank">GitHub</a>
+        and website hosted
+        <a href="https://meteo-shecodes-app.netlify.app/" target="_blank">
+          on Netlify
+        </a>
+      </footer>
+    </div>
+  </body>
+  <script src="src/script.js"></script>
+  <!-- enter-city font color won't change -->
+  <!-- how to change from metric to imperial?? -->
+</html>
