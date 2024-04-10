@@ -97,11 +97,17 @@ p strong {
   margin-top: 20px;
   text-align: center;
 }
+.forecast {
+  display: flex;
+  justify-content: space-between;
+}
 .forecast-day {
   color: #27214266;
+  text-align: center;
 }
-.forecast-temp {
+.forecast-temps {
   color: #f65282;
+  text-align: center;
 }
 footer {
   color: #27214266;
