@@ -40,33 +40,36 @@ function changeWeather(response) {
   console.log(response);
   heading.innerHTML = response.data.city;
   tempImg.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.icon}" width="90"/>`;
-  tempNumber.innerHTML = Math.round(response.data.temperature.current);
-  // if (
-  //   response.data.country == "United States of America" ||
-  //   response.data.country == "Myanmar" ||
-  //   response.data.country == "Liberia"
-  // ) {
-  //   tempScale.innerHTML = `°F`;
-  // } else {
-  //   tempScale.innerHTML = `°C`;
-  // }
-  tempScale.innerHTML = `°C`;
+  if (
+    response.data.country == "United States of America" ||
+    response.data.country == "Myanmar" ||
+    response.data.country == "Liberia"
+  ) {
+    tempNumber.innerHTML = Math.round(
+      (response.data.temperature.current * 9) / 5 + 32
+    );
+    tempScale.innerHTML = `°F`;
+  } else {
+    tempNumber.innerHTML = Math.round(response.data.temperature.current);
+    tempScale.innerHTML = `°C`;
+  }
   currentDate.innerHTML = returnDate(date);
   sky.innerHTML = response.data.condition.description;
   wordHumidity.innerHTML = `Humidity: `;
   humidity.innerHTML = `${response.data.temperature.humidity}%`;
   comma.innerHTML = `,`;
   wordWind.innerHTML = `Wind: `;
-  // if (
-  //   response.data.country == "United States of America" ||
-  //   response.data.country == "Myanmar" ||
-  //   response.data.country == "Liberia"
-  // ) {
-  //   windSpeed.innerHTML = `${response.data.wind.speed}mph`;
-  // } else {
-  //   windSpeed.innerHTML = `${response.data.wind.speed}km/h`;
-  // }
-  windSpeed.innerHTML = `${response.data.wind.speed}km/h`;
+  if (
+    response.data.country == "United States of America" ||
+    response.data.country == "Myanmar" ||
+    response.data.country == "Liberia"
+  ) {
+    windSpeed.innerHTML = `${
+      Math.round((response.data.wind.speed / 1.609) * 100) / 100
+    } mph`;
+  } else {
+    windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
+  }
   getForecast(response.data.city);
 }
 function searchCity(city) {
@@ -79,22 +82,32 @@ function submitCity(event) {
   let searchInput = document.querySelector("#enter-city");
   searchCity(searchInput.value);
 }
-function displayForecast() {
-  let forecastDays = ["Tue", "Wed", "Thu", "Fri", "Sat"];
+function returnDay(day) {
+  let date = new Date(day * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
+}
+function displayForecast(response) {
   let forecastHtml = "";
-  forecastDays.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="forecast-day">
-        <div class="forecast-date">${day}</div>
-        <div class="forecast-img"></div>
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `<div class="forecast-day">
+        <div class="forecast-date">${returnDay(day.time)}</div>
+        <img src="${day.condition.icon_url}">
         <div class="forecast-temps">
           <span class="forecast-hi-temp">
-            <strong>15º</strong>
+            <strong>${Math.round(day.temperature.maximum)}º</strong>
           </span>
-          <span class="forecast-lo-temp">/9º</span>
+          <span class="forecast-lo-temp">/${Math.round(
+            day.temperature.minimum
+          )}º</span>
         </div>
       </div>`;
+      console.log("displayForecast if-statement ran");
+    }
+    console.log("displayForecast ran");
   });
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHtml;
@@ -102,4 +115,3 @@ function displayForecast() {
 let searchCityForm = document.querySelector("#search-city-form");
 searchCityForm.addEventListener("submit", submitCity);
 searchCity("Paris");
-displayForecast();

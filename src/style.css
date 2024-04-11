@@ -105,6 +105,11 @@ p strong {
   color: #27214266;
   text-align: center;
 }
+.forecast-img {
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+}
 .forecast-temps {
   color: #f65282;
   text-align: center;
