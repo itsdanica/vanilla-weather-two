@@ -52,9 +52,11 @@ h1 {
   font-weight: 700;
   margin: 10px 0;
 }
-p {
+p,
+#default-p {
   color: #27214266;
   font-size: 16px;
+  font-weight: normal;
   line-height: 20px;
 }
 p strong {

@@ -25,20 +25,28 @@ function getForecast(city) {
   axios.get(apiUrl).then(displayForecast);
 }
 function changeWeather(response) {
-  let heading = document.querySelector("#heading");
+  let headingCity = document.querySelector("#heading-city");
+  let headingCountry = document.querySelector("#heading-country");
   let tempImg = document.querySelector(".temp-img");
   let tempNumber = document.querySelector(".temp-number");
   let tempScale = document.querySelector(".temp-scale");
   let date = new Date(response.data.time * 1000);
   let currentDate = document.querySelector("#current-date");
   let sky = document.querySelector("#sky");
-  let wordHumidity = document.querySelector("#word-humidity");
   let humidity = document.querySelector("#humidity");
-  let comma = document.querySelector("#comma");
-  let wordWind = document.querySelector("#word-wind");
   let windSpeed = document.querySelector("#wind-speed");
   console.log(response);
-  heading.innerHTML = response.data.city;
+  headingCity.innerHTML = `${response.data.city}, `;
+  if (response.data.country == "United States of America") {
+    headingCountry.innerHTML = "USA";
+  } else if (
+    response.data.country ==
+    "United Kingdom of Great Britain and Northern Ireland"
+  ) {
+    headingCountry.innerHTML = "UK";
+  } else {
+    headingCountry.innerHTML = response.data.country;
+  }
   tempImg.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.icon}" width="90"/>`;
   if (
     response.data.country == "United States of America" ||
@@ -55,20 +63,17 @@ function changeWeather(response) {
   }
   currentDate.innerHTML = returnDate(date);
   sky.innerHTML = response.data.condition.description;
-  wordHumidity.innerHTML = `Humidity: `;
-  humidity.innerHTML = `${response.data.temperature.humidity}%`;
-  comma.innerHTML = `,`;
-  wordWind.innerHTML = `Wind: `;
+  humidity.innerHTML = `<span id="default-p">Humidity:</span> ${response.data.temperature.humidity}%<span id="default-p">,</span> `;
   if (
     response.data.country == "United States of America" ||
     response.data.country == "Myanmar" ||
     response.data.country == "Liberia"
   ) {
-    windSpeed.innerHTML = `${
+    windSpeed.innerHTML = `<span id="default-p">Wind:</span> ${
       Math.round((response.data.wind.speed / 1.609) * 100) / 100
     } mph`;
   } else {
-    windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
+    windSpeed.innerHTML = `<span id="default-p">Wind:</span> ${response.data.wind.speed} km/h`;
   }
   getForecast(response.data.city);
 }
