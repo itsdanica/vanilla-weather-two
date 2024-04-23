@@ -90,11 +90,12 @@ function submitCity(event) {
 function returnDay(day) {
   let date = new Date(day * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let returnDay = days[date.getDay() + 1];
+  let returnDay = date.getDay() + 1;
   if (date.getDay() + 1 < 7) {
-    return returnDay;
+    return days[returnDay];
   } else {
-    return "Sun";
+    returnDay = returnDay - 7;
+    return days[returnDay];
   }
 }
 function displayForecast(response) {
