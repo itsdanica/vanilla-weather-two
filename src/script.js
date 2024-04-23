@@ -21,7 +21,7 @@ function returnDate(date) {
 }
 function getForecast(city) {
   let apiKey = `d804a6ef932oaf3dbf673f68a8ff6cta`;
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
 function changeWeather(response) {
@@ -90,11 +90,35 @@ function submitCity(event) {
 function returnDay(day) {
   let date = new Date(day * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  return days[date.getDay()];
+  let returnDay = days[date.getDay() + 1];
+  if (date.getDay() + 1 < 7) {
+    return returnDay;
+  } else {
+    return "Sun";
+  }
 }
 function displayForecast(response) {
+  if (
+    response.data.country == "United States of America" ||
+    response.data.country == "Myanmar" ||
+    response.data.country == "Liberia"
+  ) {
+    imperial = true;
+  } else {
+    imperial = false;
+  }
   let forecastHtml = "";
   response.data.daily.forEach(function (day, index) {
+    if (imperial) {
+      maximum = Math.round((day.temperature.maximum * 9) / 5 + 32);
+    } else {
+      maximum = Math.round(Math.round(day.temperature.maximum));
+    }
+    if (imperial) {
+      minimum = Math.round((day.temperature.minimum * 9) / 5 + 32);
+    } else {
+      minimum = Math.round(Math.round(day.temperature.minimum));
+    }
     if (index < 5) {
       forecastHtml =
         forecastHtml +
@@ -103,11 +127,9 @@ function displayForecast(response) {
         <img src="${day.condition.icon_url}">
         <div class="forecast-temps">
           <span class="forecast-hi-temp">
-            <strong>${Math.round(day.temperature.maximum)}º</strong>
+            <strong>${maximum}º</strong>
           </span>
-          <span class="forecast-lo-temp">/${Math.round(
-            day.temperature.minimum
-          )}º</span>
+          <span class="forecast-lo-temp">/ ${minimum}º</span>
         </div>
       </div>`;
       console.log("displayForecast if-statement ran");
