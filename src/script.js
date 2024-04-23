@@ -91,7 +91,7 @@ function returnDay(day) {
   let date = new Date(day * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let returnDay = date.getDay() + 1;
-  if (date.getDay() + 1 < 7) {
+  if (returnDay < 7) {
     return days[returnDay];
   } else {
     returnDay = returnDay - 7;
